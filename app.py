@@ -1,12 +1,10 @@
-from flask import Flask
+import config
+from website import create_app
+from config import SECRET_KEY
 
-app = Flask(__name__)
 
-
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
-
+app = create_app()
 
 if __name__ == '__main__':
-    app.run()
+    app.secret_key = config.SECRET_KEY
+    app.run(debug=True)
