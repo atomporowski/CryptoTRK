@@ -1,5 +1,18 @@
 {% extends "base.html" %}
 {% block title %} Settings page {% endblock %}
 {% block content %}
-    This is home page
+    <h3>Settings</h3>
+    Connect CoinTRK to your Binance api
+    <form method="POST">
+        <div class="form-group">
+            <label for="apiKey"> ApiKey </label>
+            <input type="text" class="form-control" id="apiKey" name="apiKey" placeholder="Enter apiKey"/>
+        </div>
+        <div class="form-group">
+            <label for="apiSecret"> ApiSecret </label>
+            <input type="text" class="form-control" id="apiSecret" name="apiSecret" placeholder="Enter apiSecret"/>
+        </div>
+        <br/>
+    <button type="submit" class="btn btn-primary">Add</button>
+    </form>
 {% endblock %}

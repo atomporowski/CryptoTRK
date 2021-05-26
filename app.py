@@ -1,7 +1,5 @@
 import config
 from website import create_app
-from config import SECRET_KEY
-
 
 app = create_app()
 
