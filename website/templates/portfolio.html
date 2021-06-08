@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %} Portfolio page {% endblock %}
+{% block content %}
+    {# TODO : Make a JS script to load on a website load #}
+    <script>
+        document.getElementById("current_portfolio").style.display = "none";
+        document.getElementById("orders_history").style.display = "none";
+        document.getElementById("tbc").style.display = "none";
+
+        function display_portfolio() {
+            document.getElementById("current_portfolio").style.display = "block";
+            document.getElementById("orders_history").style.display = "none";
+            document.getElementById("tbc").style.display = "none";
+        }
+
+        function display_history() {
+            document.getElementById("current_portfolio").style.display = "none";
+            document.getElementById("orders_history").style.display = "block";
+            document.getElementById("tbc").style.display = "none";
+        }
+
+        function display_tbc() {
+            document.getElementById("current_portfolio").style.display = "none";
+            document.getElementById("orders_history").style.display = "none";
+            document.getElementById("tbc").style.display = "block";
+        }
+    </script>
+    <h1>Portfolio here </h1>
+    <button onclick="display_portfolio()">Current portfolio</button>
+    <button onclick="display_history()">Orders history</button>
+    <button onclick="display_tbc()">Tutaj cos bedzie</button>
+    <section id="current_portfolio">
+        <table>
+            <tr>
+                <td>
+                    $
+                </td>
+                <td>
+                    Coin
+                </td>
+                <td>
+                    Amount
+                </td>
+                <td>
+                    Price
+                </td>
+                <td>
+                    Current value in USD
+                </td>
+            </tr>
+            {% for i in portfolio %}
+                <tr>
+                    <td>
+                        <img src="{{ url_for('static', filename="pictograms/" + i['asset'] + ".png") }}"
+                             width="22" height="22">
+                    </td>
+                    <td>
+                        {{ i['asset'] }}
+                    </td>
+                    <td>
+                        {{ i['free']|float + i['locked']|float }}
+                    </td>
+                    <td>
+                        {{ i['price'] }}
+                    </td>
+                    <td>
+                        {{ (i['free']|float + i['locked']|float) * i['price']|float }}
+                    </td>
+                </tr>
+
+            {% endfor %}
+        </table>
+    </section>
+    {# I'll leave it here for now, I'll test passing a list#}
+    {#<section id="current_portfolio">
+        <table>
+        <tr>
+            <td>
+                Symbol
+            </td>
+            <td>
+                Amount
+            </td>
+        </tr>
+            {% for b in my_balances %}
+                {% if b['free']|float > 0 or b['locked']|float > 0 %}
+                    <tr>
+                        <td>
+                            {{ b['asset'] }}
+                        </td>
+                        <td>
+                            {{ b['free']|float + b['locked']|float }}
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    </section>#}
+    <section id="orders_history" display="none">Orders history</section>
+    <section id="tbc" display="none">TBC</section>
+
+{% endblock %}

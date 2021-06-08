@@ -23,3 +23,6 @@ def account_settings():
             db.session.commit()
             flash('Connected with api successfully', category='success')
     return render_template("settings.html", user=current_user)
+
+
+# TODO : List all the apis already added

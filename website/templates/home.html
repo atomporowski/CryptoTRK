@@ -2,4 +2,7 @@
 {% block title %} Home page {% endblock %}
 {% block content %}
     This is home page
+    {% for i in prices %}
+        <p>{% print i %} {% print prices[i]['usd'] %} USD {% print prices[i]['last_updated_at'] %}</p>
+    {% endfor %}
 {% endblock %}

@@ -8,17 +8,22 @@ DB_NAME = "database.db"
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__,
+                static_url_path='',
+                template_folder='templates',
+                static_folder='templates/static')
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
 
     from .views import views
     from .auth import auth
     from .settings import settings
+    from .exchange import exchange
 
     app.register_blueprint(views, url_prefix="/")
     app.register_blueprint(auth, url_prefix="/")
     app.register_blueprint(settings, url_prefix="/")
+    app.register_blueprint(exchange, url_prefix="/")
 
     from .models import User, Portfolios
 
