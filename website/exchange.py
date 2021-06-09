@@ -30,20 +30,20 @@ def exchange_page():
 
 def update_portfolio():
     portfolio = []
+    prices = []
     current_prices = client.get_all_tickers()
+    print("BALANCE", balance)
     for b in balance:
         if float(b['free']) > 0 or float(b['locked']) > 0:
             portfolio.append(b)
             symbol = b['asset'] + 'USDT'
-            print(portfolio)
             for i in current_prices:
                 if (symbol == i['symbol']):
                     price = i['price']
-                    print(price)
                     # TODO : this is assigning last price to every coin - how to fix it?
-                    portfolio = [dict(x, **{'price': price}) for x in portfolio]
+                    p = [{'asset': b['asset'], "free": b['free'], "locked": b["locked"], 'price': price}]
+                    for v in p:
+                        if v['asset'] == b['asset']:
+                            prices.append(v)
 
-    return portfolio
-
-
-update_portfolio()
+    return prices

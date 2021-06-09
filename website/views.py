@@ -8,8 +8,12 @@ views = Blueprint('views', __name__)
 # Connecting to CoinGecko
 cg = CoinGeckoAPI()
 
-prices = cg.get_price(ids=['bitcoin', 'dogecoin', 'ethereum'], vs_currencies='usd', include_last_updated_at=True)
+prices = cg.get_price(
+    ids=['bitcoin', 'ethereum', 'binancecoin', 'dogecoin', 'cardano', 'ripple', 'polkadot', 'uniswap', 'solana', 'litecoin'],
+    vs_currencies='usd')
 
+
+print(cg.get_coins_list())
 
 @views.route('/')
 @login_required

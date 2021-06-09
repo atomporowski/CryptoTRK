@@ -1,8 +1,32 @@
 {% extends "base.html" %}
 {% block title %} Home page {% endblock %}
 {% block content %}
-    This is home page
-    {% for i in prices %}
-        <p>{% print i %} {% print prices[i]['usd'] %} USD {% print prices[i]['last_updated_at'] %}</p>
-    {% endfor %}
+    Home page
+    <table>
+        <tr>
+            <td>
+                $
+            </td>
+            <td>
+                Coin
+            </td>
+            <td>
+                Price
+            </td>
+        </tr>
+        {% for i in prices %}
+            <tr>
+                <td>
+
+                </td>
+                <td>
+                    {% print i %}
+                </td>
+                <td>
+                    {% print prices[i]['usd'] %}
+                </td>
+
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}

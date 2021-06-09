@@ -2,6 +2,7 @@
 {% block title %} Portfolio page {% endblock %}
 {% block content %}
     {# TODO : Make a JS script to load on a website load #}
+    {# TODO : Create a CSS file only for this website #}
     <script>
         document.getElementById("current_portfolio").style.display = "none";
         document.getElementById("orders_history").style.display = "none";
@@ -24,6 +25,8 @@
             document.getElementById("orders_history").style.display = "none";
             document.getElementById("tbc").style.display = "block";
         }
+
+        window.onload = display_portfolio();
     </script>
     <h1>Portfolio here </h1>
     <button onclick="display_portfolio()">Current portfolio</button>
@@ -58,13 +61,13 @@
                         {{ i['asset'] }}
                     </td>
                     <td>
-                        {{ i['free']|float + i['locked']|float }}
+                        {{ '%0.2f' %( i['free']|float + i['locked']|float) }}
                     </td>
                     <td>
-                        {{ i['price'] }}
+                        {{ '%0.2f' % i['price']|float }}
                     </td>
                     <td>
-                        {{ (i['free']|float + i['locked']|float) * i['price']|float }}
+                        {{ '%0.2f' %((i['free']|float + i['locked']|float) * i['price']|float) }}
                     </td>
                 </tr>
 

@@ -1,0 +1,24 @@
+table {
+    overflow: hidden;
+    width: 100%;
+}
+
+tr:hover {
+    background-color: slategray;
+}
+
+td, th {
+    position: relative;
+}
+
+td:hover:after,
+th:hover::after{
+    content:"";
+    position: absolute;
+    background-color: slategray;
+    left: 0;
+    top: -5000px;
+    height: 10000px;
+    width: 100%;
+    z-index: -1;
+}
