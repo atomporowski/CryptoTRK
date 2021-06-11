@@ -16,9 +16,11 @@
     />
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <title>{% block title %}Home{% endblock %}</title>
+    <script type="text/javascript" src={{ url_for('static', filename='index.js') }}></script>
+    <script type="text/javascript" src={{ url_for('static', filename='particles.js') }}></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
     <button
             class="navbar-toggler"
             type="button"
@@ -30,13 +32,13 @@
     <div class="collapse navbar-collapse" id="navbar">
         <div class="navbar-nav">
             {% if user.is_authenticated %}
-            <a class="nav-item nav-link" id="home" href="/">Home</a>
-            <a class="nav-item nav-link" id="portfolio" href="/portfolio">Portfolio</a>
-            <a class="nav-item nav-link" id="settings" href="/settings">Settings</a>
-            <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+                <a class="nav-item nav-link" id="home" href="/">Home</a>
+                <a class="nav-item nav-link" id="portfolio" href="/portfolio">Portfolio</a>
+                <a class="nav-item nav-link" id="settings" href="/settings">Settings</a>
+                <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
             {% else %}
-            <a class="nav-item nav-link" id="login" href="/login">Login</a>
-            <a class="nav-item nav-link" id="signUp" href="/signup">Sign Up</a>
+                <a class="nav-item nav-link" id="login" href="/login">Login</a>
+                <a class="nav-item nav-link" id="signUp" href="/signup">Sign Up</a>
             {% endif %}
         </div>
     </div>
@@ -58,6 +60,9 @@
         </button>
     </div>
 {% endif %} {% endfor %} {% endif %} {% endwith %}
+
+<div class="particles-js" id="particles-js"></div>
+<script type="text/javascript" src={{ url_for('static', filename='particles.js') }}></script>
 
 <div class="container">{% block content %} {% endblock %}</div>
 

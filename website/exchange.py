@@ -8,6 +8,7 @@ exchange = Blueprint('portfolio', __name__)
 
 portfolio = []
 current_prices = []
+historical_symbols = []
 
 # Path to pictograms folder
 pictograms_folder = os.path.join('static', 'pictograms')
@@ -40,10 +41,17 @@ def update_portfolio():
             for i in current_prices:
                 if (symbol == i['symbol']):
                     price = i['price']
-                    # TODO : this is assigning last price to every coin - how to fix it?
                     p = [{'asset': b['asset'], "free": b['free'], "locked": b["locked"], 'price': price}]
                     for v in p:
                         if v['asset'] == b['asset']:
                             prices.append(v)
 
     return prices
+
+
+def get_trades_history():
+    trades = client.get_historical_trades(symbol='FIOUSDT')
+    print(trades)
+
+
+get_trades_history()

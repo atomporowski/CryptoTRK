@@ -1,23 +1,38 @@
 {% extends "base.html" %}
 {% block title %} Home page {% endblock %}
 {% block content %}
-    Home page
-    <table>
+    <p>
+        Live price tracker
+    </p>
+    <p style="text-align:right; font-size: 7px">
+        Last successful synchronization: {{ last_synch }}
+    </p>
+    <table class="table table-bordered table-dark table-hover" id="recap">
         <tr>
-            <td>
+            <th>
                 $
-            </td>
-            <td>
+            </th>
+            <th>
                 Coin
-            </td>
-            <td>
-                Price
-            </td>
+            </th>
+            <th>
+                Price in USD
+            </th>
+            <th>
+                Price in PLN
+            </th>
+            <th>
+                24h change
+            </th>
+            <th>
+                Marketcap in USD
+            </th>
         </tr>
         {% for i in prices %}
             <tr>
                 <td>
-
+                    <img src="{{ url_for('static', filename="pictograms/" + i +".png") }}"
+                         width="22" height="22">
                 </td>
                 <td>
                     {% print i %}
@@ -25,8 +40,27 @@
                 <td>
                     {% print prices[i]['usd'] %}
                 </td>
-
+                <td>
+                    {% print prices[i]['pln'] %}
+                </td>
+                <td id="day_change" name="day_change" class="day_change">
+                    {% print '%0.2f' %(prices[i]['usd_24h_change']|float) %}
+                </td>
+                <td>
+                    {% print prices[i]['usd_market_cap'] %}
+                </td>
             </tr>
         {% endfor %}
     </table>
+{#    <label>Add your preferable coin to the Watchlist:
+        <input list="browsers" name="myBrowser"/></label>
+    <datalist id="browsers">
+        <option value="Chrome">
+        <option value="Firefox">
+        <option value="Internet Explorer">
+        <option value="Opera">
+        <option value="Safari">
+        <option value="Microsoft Edge">
+    </datalist>#}
+
 {% endblock %}

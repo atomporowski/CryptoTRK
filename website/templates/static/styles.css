@@ -1,24 +1,47 @@
-table {
-    overflow: hidden;
+.particles-js {
+    position: fixed;
     width: 100%;
+    height: 100%;
+    background-color: #00356B;
+
 }
 
-tr:hover {
-    background-color: slategray;
-}
 
-td, th {
-    position: relative;
-}
-
-td:hover:after,
-th:hover::after{
-    content:"";
+.container {
     position: absolute;
-    background-color: slategray;
+    /*    top: 29%;*/
+    right: 50%;
+    top: 27px;
+    transform: translate(50%);
+    color: #fff;
+    background: rgba(0, 0, 0, 0.4);
+    max-width: 83%;
+    padding: 2em 3em;
+
+}
+
+.noscroll {
+    overflow: hidden;
+}
+
+@media (min-device-width: 1025px) {
+    /* not strictly necessary, just an experiment for
+       this specific example and couldn't be necessary
+       at all on some browser */
+    .noscroll {
+        padding-right: 15px;
+    }
+}
+
+.overlay {
+    position: fixed;
+    overflow-y: scroll;
+    top: 0;
     left: 0;
-    top: -5000px;
-    height: 10000px;
-    width: 100%;
-    z-index: -1;
+    right: 0;
+    bottom: 0;
+}
+
+.btn-secondary {
+    margin-bottom: 3px;
 }

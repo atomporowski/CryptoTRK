@@ -29,27 +29,27 @@
         window.onload = display_portfolio();
     </script>
     <h1>Portfolio here </h1>
-    <button onclick="display_portfolio()">Current portfolio</button>
-    <button onclick="display_history()">Orders history</button>
-    <button onclick="display_tbc()">Tutaj cos bedzie</button>
+    <button type="button" class="btn btn-secondary" onclick="display_portfolio()">Current portfolio</button>
+    <button type="button" class="btn btn-secondary" onclick="display_history()">Orders history</button>
+    <button type="button" class="btn btn-secondary" onclick="display_tbc()">Performance</button>
     <section id="current_portfolio">
-        <table>
+        <table class="table table-bordered table-dark table-hover">
             <tr>
-                <td>
+                <th>
                     $
-                </td>
-                <td>
+                </th>
+                <th>
                     Coin
-                </td>
-                <td>
+                </th>
+                <th>
                     Amount
-                </td>
-                <td>
-                    Price
-                </td>
-                <td>
+                </th>
+                <th>
+                    Price in USD
+                </th>
+                <th>
                     Current value in USD
-                </td>
+                </th>
             </tr>
             {% for i in portfolio %}
                 <tr>
@@ -99,7 +99,11 @@
             {% endfor %}
         </table>
     </section>#}
-    <section id="orders_history" display="none">Orders history</section>
-    <section id="tbc" display="none">TBC</section>
+    <section id="orders_history" display="none">
+
+    </section>
+    <section id="tbc" display="none">
+
+    </section>
 
 {% endblock %}
