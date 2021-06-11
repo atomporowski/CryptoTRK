@@ -2,7 +2,12 @@ import config
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from binance.client import Client
+from .models import User, Portfolios
 import os
+from sqlalchemy import select
+import pandas as pd
+from . import db
+from matplotlib import pyplot as plt
 
 exchange = Blueprint('portfolio', __name__)
 
@@ -25,8 +30,11 @@ balance = acc_info['balances']
 @exchange.route('/portfolio', methods=['GET', 'POST'])
 @login_required
 def exchange_page():
+    # performance_graphs()
+    user123 = 1231241241241
+
     return render_template("portfolio.html", user=current_user, my_balances=balance, portfolio=update_portfolio(),
-                           current_prices=current_prices)
+                           current_prices=current_prices, user123=user123)
 
 
 def update_portfolio():
@@ -54,4 +62,7 @@ def get_trades_history():
     print(trades)
 
 
-get_trades_history()
+def performance_graphs():
+    select = 'SELECT user.id FROM user'
+    user123 = User.query.get(id(current_user))
+    return user123

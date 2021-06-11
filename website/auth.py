@@ -20,7 +20,7 @@ def login():
                 login_user(user, remember=True)
                 return redirect(url_for('views.home'))
             else:
-                flash('Incorrect login or password', category='error')
+                flash('Incorrect email or password', category='error')
         else:
             flash('Email does not exist.', category='error')
 
@@ -37,7 +37,7 @@ def signup():
 
         user = User.query.filter_by(email=email).first()
         if user:
-            flash('Email already exists', category='success')
+            flash('Email already exists', category='error')
         elif len(email) < 4:
             flash('Email must be greater than 3 characters.', category='error')
         elif len(first_name) < 2:

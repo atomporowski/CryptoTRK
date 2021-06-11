@@ -45,3 +45,13 @@
 .btn-secondary {
     margin-bottom: 3px;
 }
+
+.alert > alert-danger > alter-dismissable > fade > show{
+    margin-top: 50px;
+    position: relative;
+}
+
+.alert{
+    z-index: 9999;
+    margin-top: 50px;
+}
