@@ -19,6 +19,7 @@ exchange = Blueprint('portfolio', __name__)
 portfolio = []
 current_prices = []
 historical_symbols = []
+values = []
 
 # Path to pictograms folder
 pictograms_folder = os.path.join('static', 'pictograms')
