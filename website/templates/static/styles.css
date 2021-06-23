@@ -46,12 +46,28 @@
     margin-bottom: 3px;
 }
 
-.alert > alert-danger > alter-dismissable > fade > show{
+.alert > alert-danger > alter-dismissable > fade > show {
     margin-top: 50px;
     position: relative;
 }
 
-.alert{
+.alert {
     z-index: 9999;
     margin-top: 50px;
+}
+
+tr.buy{
+    background-color: #16B900 !important;
+}
+
+tr.buy :hover{
+    background-color: #129300 !important;
+}
+
+tr.sell{
+    background-color: #B9001C !important;
+}
+
+tr.sell :hover{
+    background-color: #8D0015 !important;
 }

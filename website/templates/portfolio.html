@@ -74,36 +74,50 @@
             {% endfor %}
         </table>
     </section>
-    {# I'll leave it here for now, I'll test passing a list#}
-    {#<section id="current_portfolio">
-        <table>
-        <tr>
-            <td>
-                Symbol
-            </td>
-            <td>
-                Amount
-            </td>
-        </tr>
-            {% for b in my_balances %}
-                {% if b['free']|float > 0 or b['locked']|float > 0 %}
-                    <tr>
-                        <td>
-                            {{ b['asset'] }}
-                        </td>
-                        <td>
-                            {{ b['free']|float + b['locked']|float }}
-                        </td>
-                    </tr>
-                {% endif %}
+    <section id="orders_history" display="none">
+        <table class="table table-bordered table-dark table-hover">
+            <tr>
+                <th>
+                    $
+                </th>
+                <th>
+                    Coin
+                </th>
+                <th>
+                    Amount
+                </th>
+                <th>
+                    Price in USD
+                </th>
+                <th>
+                    Date
+                </th>
+            </tr>
+            {% for x in history %}
+                <tr class="{{ x['side'].lower() }}">
+                    <td>
+                        <img src="{{ url_for('static', filename="pictograms/" + x['symbol'][:-4] + ".png") }}"
+                             width="22" height="22">
+                    </td>
+                    <td>
+                        {{ x['symbol'] }}
+                    </td>
+                    <td>
+                        {{ x['executedQty'] }}
+                    </td>
+                    <td>
+                        {{ x['price'] }}
+                    </td>
+                    <td>
+                        {{ x['time'] }}
+                    </td>
+                </tr>
             {% endfor %}
         </table>
-    </section>#}
-    <section id="orders_history" display="none">
-
     </section>
     <section id="tbc" display="none">
-        <embed type="image/svg+xml" src={{graph_data|safe}} style="max-width:900px; />
+        <embed type="image/svg+xml" src={{ graph_data|safe }} style="max-width:900px;/>
     </section>
+    <div id="loading"></div>
 
 {% endblock %}

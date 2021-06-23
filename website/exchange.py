@@ -2,7 +2,7 @@ import config
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from flask_login import login_required, current_user
 from binance.client import Client
-import pygal
+import pygal, time, datetime
 from pygal.style import NeonStyle
 
 import os
@@ -26,6 +26,17 @@ pictograms_folder = os.path.join('static', 'pictograms')
 
 # Connecting to binance api
 client = Client(config.apiKey, config.apiSecret)
+
+# Checking time synch
+# Use this only when toy get recvWindows exceeded threshold
+# for i in range(1, 10):
+#     local_time1 = int(time.time() * 1000)
+#     server_time = client.get_server_time()
+#     diff1 = server_time['serverTime'] - local_time1
+#     local_time2 = int(time.time() * 1000)
+#     diff2 = local_time2 - server_time['serverTime']
+#     print("local1: %s server:%s local2: %s diff1:%s diff2:%s" % (local_time1, server_time['serverTime'], local_time2, diff1, diff2))
+#     time.sleep(2)
 
 # Getting all current assets info
 acc_info = client.get_account()
@@ -66,14 +77,15 @@ def exchange_page():
     graph.add('BTC', btc_values, secondary=True)
     graph_data = graph.render_data_uri()
     return render_template("portfolio.html", user=current_user, my_balances=balance, portfolio=update_portfolio(),
-                           current_prices=current_prices, graph_data=graph_data)
+                           current_prices=current_prices, history=get_trades_history(prices=update_portfolio()),
+                           graph_data=graph_data)
 
 
 def update_portfolio():
     portfolio = []
     prices = []
     current_prices = client.get_all_tickers()
-    print("BALANCE", balance)
+    # print("BALANCE", balance)
     for b in balance:
         if float(b['free']) > 0 or float(b['locked']) > 0:
             portfolio.append(b)
@@ -85,11 +97,25 @@ def update_portfolio():
                     for v in p:
                         if v['asset'] == b['asset']:
                             prices.append(v)
-
     return prices
 
 
-def get_trades_history():
-    trades = client.get_historical_trades(symbol='FIOUSDT')
+def get_trades_history(prices):
+    symbols = []
+    for i in prices:
+        symbols.append(i['asset'] + 'USDT')
+    trades = []
+    for s in symbols:
+        trades.extend(client.get_all_orders(symbol=s))
+    for t in trades:
+        t['time'] = (datetime.datetime.fromtimestamp(int(t['time']) / 1000).strftime('%Y-%m-%d %H:%M:%S'))
+    # I was trying to remove canceled orders but the below fails for some reason
+    # for y in range(51):
+    #     if trades[y]['status'] == 'CANCELED':
+    #         del trades[y]
     print(trades)
+    print(type(trades))
+    return trades
 
+
+get_trades_history(prices=update_portfolio())

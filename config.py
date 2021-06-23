@@ -3,3 +3,5 @@ apiSecret = "cuTACSqON5ulft4CNEbAYLycPSY15BiTvSoFqRe9k38zkJfUH59XDHft7nRuLop1"
 
 # TODO : make a function toi generate secret key
 SECRET_KEY = "Kr7.e*PxAbaPyv7MquRfCJTv"
+
+
