@@ -6,24 +6,24 @@
     <script>
         document.getElementById("current_portfolio").style.display = "none";
         document.getElementById("orders_history").style.display = "none";
-        document.getElementById("tbc").style.display = "none";
+        document.getElementById("performance").style.display = "none";
 
         function display_portfolio() {
             document.getElementById("current_portfolio").style.display = "block";
             document.getElementById("orders_history").style.display = "none";
-            document.getElementById("tbc").style.display = "none";
+            document.getElementById("performance").style.display = "none";
         }
 
         function display_history() {
             document.getElementById("current_portfolio").style.display = "none";
             document.getElementById("orders_history").style.display = "block";
-            document.getElementById("tbc").style.display = "none";
+            document.getElementById("performance").style.display = "none";
         }
 
-        function display_tbc() {
+        function display_performance() {
             document.getElementById("current_portfolio").style.display = "none";
             document.getElementById("orders_history").style.display = "none";
-            document.getElementById("tbc").style.display = "block";
+            document.getElementById("performance").style.display = "block";
         }
 
         window.onload = display_portfolio();
@@ -31,7 +31,7 @@
     <h1>Portfolio here </h1>
     <button type="button" class="btn btn-secondary" onclick="display_portfolio()">Current portfolio</button>
     <button type="button" class="btn btn-secondary" onclick="display_history()">Orders history</button>
-    <button type="button" class="btn btn-secondary" onclick="display_tbc()">Performance</button>
+    <button type="button" class="btn btn-secondary" onclick="display_performance()">Performance</button>
     <section id="current_portfolio">
         <table class="table table-bordered table-dark table-hover">
             <tr>
@@ -115,8 +115,59 @@
             {% endfor %}
         </table>
     </section>
-    <section id="tbc" display="none">
-        <embed type="image/svg+xml" src={{ graph_data|safe }} style="max-width:900px;/>
-    </section>
+    <section id="performance" display="none">
+        <embed type="image/svg+xml" src={{ graph_data|safe }}  />
 
+        <table class="table table-bordered table-dark table-hover">
+            <tr>
+                <th>
+                    $
+                </th>
+                <th>
+                    Coin
+                </th>
+                <th>
+                    Current amount in USD
+                </th>
+                <th>
+                    Average entry
+                </th>
+                <th>
+                    Current price
+                </th>
+                <th>
+                    % change
+                </th>
+                <th>
+                    Current change
+                </th>
+            </tr>
+            {% for z in performance %}
+                <tr>
+                    <td>
+                        <img src="{{ url_for('static', filename="pictograms/" + z['symbol'] + ".png") }}"
+                             width="22" height="22">
+                    </td>
+                    <td>
+                        {{ z['symbol'] }}
+                    </td>
+                    <td>
+                        {{ z['amount'] }}
+                    </td>
+                    <td>
+                        {{ z['avg'] }}
+                    </td>
+                    <td>
+                        curr
+                    </td>
+                    <td>
+                        % change
+                    </td>
+                    <td>
+                        $ change
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </section>
 {% endblock %}

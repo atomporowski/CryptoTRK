@@ -56,18 +56,35 @@
     margin-top: 50px;
 }
 
-tr.buy{
+tr.buy {
     background-color: #16B900 !important;
 }
 
-tr.buy :hover{
+tr.buy :hover {
     background-color: #129300 !important;
 }
 
-tr.sell{
+tr.sell {
     background-color: #B9001C !important;
 }
 
-tr.sell :hover{
+tr.sell :hover {
     background-color: #8D0015 !important;
+}
+
+
+/* Loading page css */
+div#content {
+    display: none;
+}
+
+div#loading {
+    top: 200px;
+    margin: auto;
+    position: absolute;
+    z-index: 1000;
+    width: 160px;
+    height: 24px;
+    background-color: #B9001C;
+    cursor: wait;
 }

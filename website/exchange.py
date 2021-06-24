@@ -20,6 +20,7 @@ portfolio = []
 current_prices = []
 historical_symbols = []
 values = []
+current_coins = []
 
 # Path to pictograms folder
 pictograms_folder = os.path.join('static', 'pictograms')
@@ -78,7 +79,8 @@ def exchange_page():
     graph_data = graph.render_data_uri()
     return render_template("portfolio.html", user=current_user, my_balances=balance, portfolio=update_portfolio(),
                            current_prices=current_prices, history=get_trades_history(prices=update_portfolio()),
-                           graph_data=graph_data)
+                           graph_data=graph_data,
+                           performance=calc_performance(trades=trades, curr_port=update_portfolio()))
 
 
 def update_portfolio():
@@ -113,9 +115,53 @@ def get_trades_history(prices):
     # for y in range(51):
     #     if trades[y]['status'] == 'CANCELED':
     #         del trades[y]
-    print(trades)
-    print(type(trades))
+
     return trades
 
 
-get_trades_history(prices=update_portfolio())
+# Saving get_trades_history and coins owned to variables, we dont need to call API anymore
+trades = get_trades_history(update_portfolio())
+
+
+def calc_performance(trades, curr_port=update_portfolio()):
+    print(trades)
+    print(curr_port)
+    avg_entries = []
+    money_spent_per_coin = 0.0
+    money_per_transaction = 0.0
+    avg_entry_price = 0.0
+    transacion_counter = 1
+    for i in curr_port:
+        if i['asset'] == 'USDT':
+            continue
+        price = client.get_all_orders(symbol=i['asset'] + 'USDT')
+        # print(price)
+        for y in price:
+            if float(y['price']) == 0:
+                continue
+            if y['status'] == "FILLED" and y['side'] == "BUY":
+                # money_per_transaction = (float(y['origQty']) * float(y['price']))
+                money_per_transaction = (float(y['cummulativeQuoteQty']))
+                avg_price_per_coin_in_this_transaction = float(y['cummulativeQuoteQty']) / float(y['origQty'])
+                # print(money_per_transaction, avg_price_per_coin_in_this_transaction)
+                money_spent_per_coin += money_per_transaction
+                avg_entry_price = avg_entry_price + avg_price_per_coin_in_this_transaction
+                transacion_counter = transacion_counter + 1
+                # avg_entry_price = avg_entry_price / transacion_counter
+        # print(money_spent_per_coin)
+        coin_amount = (float(i['free']) + float(i['locked']))
+        # print(i['asset'], "Coin owned: ", coin_amount, "Avg. entry price:", avg_entry_price / transacion_counter,
+        #       "Trans counter: ", transacion_counter)
+        avg_entries.append(
+            {'symbol': i['asset'], 'amount': coin_amount, 'avg': avg_entry_price / transacion_counter,
+             'counter': transacion_counter})
+        # print(avg_entries)
+        transacion_counter = 1
+        money_spent_per_coin = 0.0
+        money_per_transaction = 0.0
+        avg_entry_price = 0.0
+
+    return avg_entries
+
+
+calc_performance(trades, update_portfolio())
