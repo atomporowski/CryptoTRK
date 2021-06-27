@@ -28,21 +28,12 @@ pictograms_folder = os.path.join('static', 'pictograms')
 # Connecting to binance api
 client = Client(config.apiKey, config.apiSecret)
 
-# Checking time synch
-# Use this only when toy get recvWindows exceeded threshold
-# for i in range(1, 10):
-#     local_time1 = int(time.time() * 1000)
-#     server_time = client.get_server_time()
-#     diff1 = server_time['serverTime'] - local_time1
-#     local_time2 = int(time.time() * 1000)
-#     diff2 = local_time2 - server_time['serverTime']
-#     print("local1: %s server:%s local2: %s diff1:%s diff2:%s" % (local_time1, server_time['serverTime'], local_time2, diff1, diff2))
-#     time.sleep(2)
-
 # Getting all current assets info
 acc_info = client.get_account()
 # Gets info about amount of each coin owned
 balance = acc_info['balances']
+# Getting current prices
+current_prices = client.get_all_tickers()
 
 
 @exchange.route('/portfolio', methods=['GET', 'POST'])
@@ -83,10 +74,11 @@ def exchange_page():
                            performance=calc_performance(trades=trades, curr_port=update_portfolio()))
 
 
-def update_portfolio():
+def update_portfolio(current_prices=current_prices):
     portfolio = []
     prices = []
-    current_prices = client.get_all_tickers()
+    # current_prices = client.get_all_tickers()
+    # print(current_prices)
     # print("BALANCE", balance)
     for b in balance:
         if float(b['free']) > 0 or float(b['locked']) > 0:
@@ -124,14 +116,11 @@ trades = get_trades_history(update_portfolio())
 
 
 def calc_performance(trades, curr_port=update_portfolio()):
-    print(trades)
-    print(curr_port)
     avg_entries = []
-    money_spent_per_coin = 0.0
-    money_per_transaction = 0.0
-    avg_entry_price = 0.0
-    transacion_counter = 1
     for i in curr_port:
+        transacion_counter = 1
+        money_spent_per_coin = 0.0
+        avg_entry_price = 0.0
         if i['asset'] == 'USDT':
             continue
         price = client.get_all_orders(symbol=i['asset'] + 'USDT')
@@ -153,15 +142,25 @@ def calc_performance(trades, curr_port=update_portfolio()):
         # print(i['asset'], "Coin owned: ", coin_amount, "Avg. entry price:", avg_entry_price / transacion_counter,
         #       "Trans counter: ", transacion_counter)
         avg_entries.append(
-            {'symbol': i['asset'], 'amount': coin_amount, 'avg': avg_entry_price / transacion_counter,
-             'counter': transacion_counter})
-        # print(avg_entries)
-        transacion_counter = 1
-        money_spent_per_coin = 0.0
-        money_per_transaction = 0.0
-        avg_entry_price = 0.0
+            {'symbol': i['asset'] + 'USDT', 'amount': coin_amount, 'avg': avg_entry_price / transacion_counter,
+             'counter': transacion_counter, 'curr_price': i['price']})
+    for i in avg_entries:
+        if i['curr_price'] == i['avg']:
+            i.update({'perc_change:': 0})
+        elif i['avg'] != 0:
+            i.update({'perc_change': ((float(i['curr_price'])) - float(i['avg'])) / float(i['avg']) * 100.0})
+        else:
+            i.update({'perc_change:': 'N/A'})
 
     return avg_entries
 
 
-calc_performance(trades, update_portfolio())
+def ping():
+    try:
+        client = Client(config.apiKey, config.apiSecret)
+        return client.ping()
+    except:
+        print("error")
+
+
+ping()

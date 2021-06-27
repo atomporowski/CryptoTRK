@@ -1,17 +1,24 @@
-import pytest
+import pytest, time, config
 from binance.client import Client
-import config
-
-import website.exchange
 from website.exchange import client
 
-
-class TestExchangeOperations:
-
-    def test_api_connection(self):
-        client = Client(config.apiKey, config.apiSecret)
-        assert client
-
-
 client = Client(config.apiKey, config.apiSecret)
-print(client)
+
+
+class TestAPIConnection:
+
+    def test_time_syn(self):
+        local_time1 = int(time.time() * 1000)
+        server_time = client.get_server_time()
+        diff1 = server_time['serverTime'] - local_time1
+        assert diff1 <= 5000
+
+    def test_ping(self):
+        response = client.ping()
+        assert response == {}
+
+    def test_adding_two_numbers(self):
+        the_sum = 2 + 2
+        assert the_sum == 4
+
+

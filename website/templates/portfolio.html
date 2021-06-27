@@ -127,7 +127,7 @@
                     Coin
                 </th>
                 <th>
-                    Current amount in USD
+                    Current coin amount owned
                 </th>
                 <th>
                     Average entry
@@ -145,7 +145,7 @@
             {% for z in performance %}
                 <tr>
                     <td>
-                        <img src="{{ url_for('static', filename="pictograms/" + z['symbol'] + ".png") }}"
+                        <img src="{{ url_for('static', filename="pictograms/" + z['symbol'][:-4] + ".png") }}"
                              width="22" height="22">
                     </td>
                     <td>
@@ -158,10 +158,10 @@
                         {{ z['avg'] }}
                     </td>
                     <td>
-                        curr
+                        {{ z['curr_price'] }}
                     </td>
                     <td>
-                        % change
+                        {{ z['perc_change'] }}
                     </td>
                     <td>
                         $ change
