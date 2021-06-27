@@ -1,7 +1,8 @@
+import time, datetime, sched
 from flask import Blueprint, render_template, flash, request
 from flask_login import login_required, current_user
 from pycoingecko import CoinGeckoAPI
-import time, datetime, sched
+
 
 views = Blueprint('views', __name__)
 

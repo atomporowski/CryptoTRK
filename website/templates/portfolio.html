@@ -54,7 +54,7 @@
             {% for i in portfolio %}
                 <tr>
                     <td>
-                        <img src="{{ url_for('static', filename="pictograms/" + i['asset'] + ".png") }}"
+                        <img src="{{ url_for('static', filename="pictograms/" + i['asset']|lower + ".png") }}"
                              width="22" height="22">
                     </td>
                     <td>

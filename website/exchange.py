@@ -35,6 +35,10 @@ balance = acc_info['balances']
 # Getting current prices
 current_prices = client.get_all_tickers()
 
+# path = "./templates/static/pictograms/"
+#
+# for file in os.listdir(path):
+#     os.rename(path + file, path + file.lower())
 
 @exchange.route('/portfolio', methods=['GET', 'POST'])
 @login_required
