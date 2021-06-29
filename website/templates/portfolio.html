@@ -96,7 +96,7 @@
             {% for x in history %}
                 <tr class="{{ x['side'].lower() }}">
                     <td>
-                        <img src="{{ url_for('static', filename="pictograms/" + x['symbol'][:-4] + ".png") }}"
+                        <img src="{{ url_for('static', filename="pictograms/" + x['symbol'][:-4]|lower + ".png") }}"
                              width="22" height="22">
                     </td>
                     <td>
@@ -145,7 +145,7 @@
             {% for z in performance %}
                 <tr>
                     <td>
-                        <img src="{{ url_for('static', filename="pictograms/" + z['symbol'][:-4] + ".png") }}"
+                        <img src="{{ url_for('static', filename="pictograms/" + z['symbol'][:-4]|lower + ".png") }}"
                              width="22" height="22">
                     </td>
                     <td>
