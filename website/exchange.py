@@ -159,12 +159,12 @@ def calc_performance(trades, curr_port=update_portfolio()):
     return avg_entries
 
 
-def ping():
-    try:
-        client = Client(config.apiKey, config.apiSecret)
-        return client.ping()
-    except:
-        print("error")
-
-
-ping()
+# def ping():
+#     try:
+#         client = Client(config.apiKey, config.apiSecret)
+#         return client.ping()
+#     except:
+#         print("error")
+#
+#
+# ping()

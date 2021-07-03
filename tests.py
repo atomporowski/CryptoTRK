@@ -21,4 +21,10 @@ class TestAPIConnection:
         the_sum = 2 + 2
         assert the_sum == 4
 
+    def test_price_change(self):
+        symbol_info = client.get_avg_price(symbol='BTCUSDT')
+        entry = float(50000)
+        difference = float(symbol_info['price']) - entry
+        assert difference != 0
+
 
